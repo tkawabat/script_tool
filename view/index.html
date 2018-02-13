@@ -1,0 +1,75 @@
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>台本色々ツール</title>
+</head>
+
+<body bgcolor="#ffffff" onload="gtime()">
+
+<form name="js">
+
+ここにテキストを入れてください<br>
+改行を追加して右のウィンドウに表示するよ<br>
+<textarea name="input" rows="30" cols="60" value=""></textarea>
+<textarea name="output" rows="30" cols="60" value=""></textarea><br>
+<input type="button" value="変換" onclick="convert()">
+<input type="button" value="消去" onclick="clr()"><br>
+</form>
+
+<script type="text/javascript">
+<!--
+
+//テキストボックスの文字を変換し右に出力
+function convert(){
+ var str1=document.js.input.value;
+ var cr = getcrchars();
+ var str2="";
+
+ start = 0;
+ end = 0;
+ len = str1.length;
+ while(end < len) {
+  end = str1.indexof(cr,start);
+  if(end == -1) {
+   str2 = str2 + str1.slice(start,parseint(len));
+   break;
+  }
+  if(len - end < 3 || start == end || str1.slice(end+1,end+4).match("　　　")) {
+   str2 = str2 + str1.slice(start,end) + cr;
+  } else {
+   str2 = str2 + str1.slice(start,end) + cr + cr;
+  }
+  start = end + 1;
+ }
+ document.js.output.value = str2;
+}
+
+//改行コードを返す
+function getcrchars(){
+	var sourcecode=""+getcrchars+""
+	if(sourcecode.indexof("\r\n")>-1){
+		return "\r\n"
+	}else if(sourcecode.indexof("\n")>-1){
+		return "\n"
+	}else if(sourcecode.indexof("\r")>-1){
+		return "\r"
+	}else{ //ここには入らないはず
+		return "\n"
+	}
+}
+
+
+//テキストボックスの文字を操作する
+function clr(){
+ document.js.input.value="";
+ document.js.output.value="";
+ document.js.caution.value="";
+}
+
+// -->
+
+</script>
+<br><br><br><br>
+
+</body>
+</html>
